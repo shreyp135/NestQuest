@@ -1,0 +1,38 @@
+<% layout("../layouts/boilerplate") %>
+
+<body>
+    <div class="row mt-3">
+        <h2 style="text-align: center;">Login on NestQuest</h2>
+        <div class="col-6 offset-3"style="margin-top:4rem">
+        <form action="/login" method="post" class="needs-validation" >
+        <div class="mb-3">
+
+        <lable for="username" class="form-label">Username </lable>
+        <input name="username"id="username" type="text"class="form-control" required/>
+
+        <div class="valid-feedback"> Looks good !</div>
+        </div>
+       
+            <div class="mb-3">
+                <lable for="password" class="form-label">Password</lable>
+                <input
+                name="password"
+                id="password"
+                type="password"
+                class="form-control"
+                required
+                />
+                
+                </div>
+                    <button class="btn btn-success" style="margin-bottom: 7rem;">Login</button>
+                    <!-- margin-right: 4rem;margin-left: 10rem;
+                        <a href="/signup">
+                        <button class="btn btn-success" style="margin-bottom: 7rem;"> or Signup </button>
+                    </a> -->
+   
+                </form>
+       
+       
+        </div>
+        </div>
+</body>
