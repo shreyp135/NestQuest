@@ -134,6 +134,11 @@ app.post("/login",saveRedirectUrl ,passport.authenticate("local", { failureRedir
 
 //listings routes
 
+//home route
+app.get("/",(req,res)=>{
+    res.redirect("/listings");
+});
+
 //Index Route
 app.get("/listings", async (req, res) => {
   const allListings = await Listing.find({});
