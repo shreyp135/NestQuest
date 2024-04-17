@@ -1,3 +1,5 @@
+const listing = require("./models/listing.js");
+
 
   module.exports.isloggedIn = (req,res,next)=>{
     if(!req.isAuthenticated()){
@@ -16,4 +18,25 @@
         else
         res.locals.redirectUrl ="/listings";
         next();
-  }
+  };
+
+  module.exports.isOwner = async (req,res,next)=>{
+    let { id } = req.params;
+    const currentListing = await listing.findById(id);
+   if(!currentListing.owner._id.equals(res.locals.currentUser._id)){
+     req.flash("error", "You don't have permission to edit");
+     res.redirect(`/listings/${id}`);
+   }
+   next();
+
+  };
+
+  // const validateListing = (req, res, next) => {
+  //   let { error } = listingSchema.validate(req.body);
+
+  //   if (error) {
+  //   let errMsg = error.details.map((el) => el.message).join(",");
+  //   throw new ExpressError(400, errMsg);
+  //   } 
+  //   next();
+  // };

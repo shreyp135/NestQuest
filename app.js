@@ -14,7 +14,7 @@ const flash = require("connect-flash");
 const passport =require("passport");
 const localStrategy = require("passport-local");
 const user = require("./models/user.js");
-const { isloggedIn, saveRedirectUrl } = require("./middleware.js");
+const { isloggedIn, saveRedirectUrl, isOwner } = require("./middleware.js");
 const MongoStore = require("connect-mongo");
 
 //middlewares
@@ -164,7 +164,7 @@ app.get("/listings/:id", async (req, res) => {
 //Create Route
 app.post("/listings", async (req, res) => {
   const newListing = new Listing(req.body.listing);
-  console.log(res.locals.currentUser);
+  newListing.owner = req.user._id;
   await newListing.save();
   // const ownerId = res.locals.currentUser._id;
   // await Listing.findByIdAndUpdate(req.params.id,{owner:ownerId});
@@ -173,16 +173,16 @@ app.post("/listings", async (req, res) => {
 });
 
 //Edit Route
-app.get("/listings/:id/edit", isloggedIn,async (req, res) => {
+app.get("/listings/:id/edit", isloggedIn,isOwner,async (req, res) => {
   let { id } = req.params;
   const listing = await Listing.findById(id);
   res.render("listings/edit.ejs", { listing });
 });
 
 //Update Route
-app.put("/listings/:id", isloggedIn,  async (req, res) => {
-  let { id } = req.params;
-  await Listing.findByIdAndUpdate(id, {...req.body.listing });
+app.put("/listings/:id", isloggedIn, isOwner, async (req, res) => {
+ 
+  await listing.findByIdAndUpdate(id, {...req.body.listing });
   res.redirect(`/listings/${id}`);
 });
 
