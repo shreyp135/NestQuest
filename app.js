@@ -1,4 +1,5 @@
 //requires
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -17,7 +18,9 @@ const user = require("./models/user.js");
 const { isloggedIn, saveRedirectUrl, isOwner } = require("./middleware.js");
 const MongoStore = require("connect-mongo");
 const multer  = require("multer");
-const upload = multer({ dest: "uploads/" });
+const {storage} = require("./cloudConfig.js");
+const upload = multer({storage});
+
 
 //middlewares
 app.set("view engine", "ejs");
@@ -28,8 +31,6 @@ app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")))
 
 //starting mongodb database
-// const MONGO_URL = "mongodb://127.0.0.1:27017/NestQuest";
-const uri = "mongodb+srv://shreyanshtechsolutions:10-march-2005@cluster0.89p8onx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 main()
   .then(() => {
     console.log("Server connected to database successfully");
@@ -39,7 +40,7 @@ main()
   });
 
   const store = MongoStore.create({
-    mongoUrl: uri,
+    mongoUrl: process.env.ATLASDB_URL,
     crypto: {
     secret: "NestQuestsecretcode",
     },
@@ -51,7 +52,7 @@ main()
   // });
 
 async function main() {
-  await mongoose.connect(uri);
+  await mongoose.connect(process.env.ATLASDB_URL);
 }
 
 //cookie settings
@@ -164,8 +165,11 @@ app.get("/listings/:id", async (req, res) => {
 });
 
 //Create Route
-app.post("/listings", async (req, res) => {
+app.post("/listings", isloggedIn,upload.single("listing[image]"),async (req, res) => {
+  let url = req.file.path;
+  let filename =req.file.filename;
   const newListing = new Listing(req.body.listing);
+  newListing.image = url;
   newListing.owner = req.user._id;
   await newListing.save();
   // const ownerId = res.locals.currentUser._id;
