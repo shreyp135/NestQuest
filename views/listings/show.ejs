@@ -18,6 +18,30 @@
       <button>Delete this listing</button>
     </form>
     <% } %>
+
+      <div>
+        <h2>Where you'll be</h3>
+          <p><%=listingCoordinates%></p>
+        <br>
+        <div id="map"></div>
+      </div>
+      
+      <script>
+      const mapToken = "<%=process.env.MAP_TOKEN%>";
+      mapboxgl.accessToken = mapToken;
+        const map = new mapboxgl.Map({
+            container: 'map', // container ID
+            center: [77.1, 28.7], // starting position [lng, lat]
+            zoom: 9 // starting zoom
+        });
+
+        const marker1 = new mapboxgl.Marker()
+        .setLngLat(listingCoordinates)
+        .addTo(map);
+
+      </script>
+      
+
     <h2 style="margin-top: 2rem;">Reviews & Ratings </h3>
     <br>
     <% if(listing.review.length==0){%>
@@ -32,11 +56,14 @@
           <% if(currentUser && currentUser._id.equals(review.author._id)) { %>
         <form action="/listings/<%=listing._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
           <button class="btn btn-sm btn-dark">Delete review</button>
+          <br><br>
       </form>
+      
         <%}%>
      <% }%>
     </ul>
     </div>
+    <br><br>
 
     <% if(currentUser){ %>
     <div>
@@ -77,3 +104,5 @@
 </div>
 
 </body>
+
+<script src="/js/map.js"></script>

@@ -117,3 +117,10 @@ body{
 #cardsRow{
     justify-content: space-around;
 }
+
+
+#map { 
+   height: 400px;
+   width: 800px;
+   border-radius: 1.5rem;
+}

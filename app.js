@@ -20,7 +20,8 @@ const MongoStore = require("connect-mongo");
 const multer  = require("multer");
 const {storage} = require("./cloudConfig.js");
 const upload = multer({storage});
-
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const geocodingClient = mbxGeocoding({ accessToken: process.env.MAP_TOKEN });
 
 //middlewares
 app.set("view engine", "ejs");
@@ -161,11 +162,18 @@ app.get("/listings/:id", async (req, res) => {
     req.flash("error","No listing found");
     res.redirect("/listings")
   }
-  res.render("listings/show.ejs", { listing });
+  let response= await geocodingClient.forwardGeocode({
+    query: `${listing.location},${listing.country}`,
+    limit: 1,
+  }).send();
+  const listingCoordinates = JSON.stringify(response.body.features[0].geometry.coordinates);
+   console.log(listingCoordinates);
+  res.render("listings/show.ejs", { listing, listingCoordinates});
 });
 
 //Create Route
 app.post("/listings", isloggedIn,upload.single("listing[image]"),async (req, res) => {
+
   let url = req.file.path;
   let filename =req.file.filename;
   const newListing = new Listing(req.body.listing);
@@ -187,7 +195,7 @@ app.get("/listings/:id/edit", isloggedIn,isOwner,async (req, res) => {
 
 //Update Route
 app.put("/listings/:id", isloggedIn, isOwner, async (req, res) => {
- 
+ let {id} =req.params;
   await listing.findByIdAndUpdate(id, {...req.body.listing });
   res.redirect(`/listings/${id}`);
 });
