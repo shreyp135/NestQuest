@@ -153,7 +153,7 @@ app.get("/listings/new", isloggedIn,  (req, res) => {
 //Show Route
 app.get("/listings/:id", async (req, res) => {
   let { id } = req.params;
-  const listing = await Listing.findById(id).populate("review").populate("owner");
+  const listing = await Listing.findById(id).populate({path:"review",populate: {path:"author"}}).populate("owner");
   if(!listing){
     req.flash("error","No listing found");
     res.redirect("/listings")
@@ -202,6 +202,7 @@ app.post("/listings/:id/reviews", async (req,res)=>{
   let { id } = req.params;
   let listing =await Listing.findById(id);
   let newReview = new Review(req.body.review);
+  newReview.author = res.locals.currentUser._id;
   listing.review.push(newReview);
   await newReview.save();
   await listing.save();
@@ -210,7 +211,7 @@ app.post("/listings/:id/reviews", async (req,res)=>{
 
 //delete review route
 
-app.delete("/listings/:id/reviews/:reviewId", async(req,res)=>{
+app.delete("/listings/:id/reviews/:reviewId", isloggedIn, async(req,res)=>{
     let{id,reviewId} = req.params;
     await listing.findByIdAndUpdate(id, {$pull:{review: reviewId}});   
     await review.findByIdAndDelete(reviewId);

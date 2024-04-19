@@ -18,6 +18,27 @@
       <button>Delete this listing</button>
     </form>
     <% } %>
+    <h2 style="margin-top: 2rem;">Reviews & Ratings </h3>
+    <br>
+    <% if(listing.review.length==0){%>
+      <h5 style="margin-left: 1rem;">No reviews yet...</h4>
+      <%}%>
+    <div>
+    <div>
+      <ul>
+      <% for(review of listing.review) { %>
+        
+        <li style="font-size: x-large;"> <h3>@<%=review.author.username%></h5> <%=review.comment%> , <%=review.rating%> star</li>
+          <% if(currentUser && currentUser._id.equals(review.author._id)) { %>
+        <form action="/listings/<%=listing._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+          <button class="btn btn-sm btn-dark">Delete review</button>
+      </form>
+        <%}%>
+     <% }%>
+    </ul>
+    </div>
+
+    <% if(currentUser){ %>
     <div>
     <h4 style="margin-top: 2rem ; margin-bottom: 1rem;">Leave a Review</h4>
     <form method="post" action="/listings/<%=listing._id %>/reviews">
@@ -33,18 +54,13 @@
     <button style="margin-top: 1rem;">Submit</button>
   </form>
   <br>
-
-  <h4>All Reviews</h4>
-  <ul>
-  <% for(review of listing.review) { %>
-    <li style="font-size: x-large;"> <%=review.comment%> , <%=review.rating%> star</li>
-    
-    <form action="/listings/<%=listing._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
-    <button class="btn btn-sm btn-dark">Delete review</button>
-  </form>
- <% }%>
-</ul>
-  
+  <% }else { %>
+    <br><br>
+    <div >
+      <h4 style="margin-bottom: 2rem;">Login to give a Review</h4>
+    </div>
+    <%}%>
+ 
 </div>
 
 </body>

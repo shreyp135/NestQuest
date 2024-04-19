@@ -31,6 +31,17 @@ const listing = require("./models/listing.js");
 
   };
 
+  module.exports.isAuthor = async (req,res,next)=>{
+    let {id,reviewId } = req.params;
+    const currentListing = await review.findById(reviewId);
+   if(!currentListing.owner._id.equals(res.locals.currentUser._id)){
+     req.flash("error", "You don't have permission");
+     res.redirect(`/listings/${id}`);
+   }
+   next();
+
+  };
+
   // const validateListing = (req, res, next) => {
   //   let { error } = listingSchema.validate(req.body);
 

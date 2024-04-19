@@ -55,8 +55,8 @@ body{
 .f-info-links a{
     text-decoration: none;
     color: black;
-
-    /* width: 100%; */
+    
+    width: 100%;
 }
 
 .f-info{
