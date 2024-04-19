@@ -16,6 +16,8 @@ const localStrategy = require("passport-local");
 const user = require("./models/user.js");
 const { isloggedIn, saveRedirectUrl, isOwner } = require("./middleware.js");
 const MongoStore = require("connect-mongo");
+const multer  = require("multer");
+const upload = multer({ dest: "uploads/" });
 
 //middlewares
 app.set("view engine", "ejs");
