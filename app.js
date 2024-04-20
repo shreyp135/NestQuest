@@ -43,7 +43,7 @@ main()
   const store = MongoStore.create({
     mongoUrl: process.env.ATLASDB_URL,
     crypto: {
-    secret: "NestQuestsecretcode",
+    secret: process.env.SECRET,
     },
     touchAfter: 24 * 3600,
   });

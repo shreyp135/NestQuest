@@ -17,6 +17,7 @@
     <form method="POST" action="/listings/<%=listing._id%>?_method=DELETE">
       <button>Delete this listing</button>
     </form>
+    <br><br>
     <% } %>
 
       <div>
@@ -33,7 +34,7 @@
         const map = new mapboxgl.Map({
             container: "map", // container ID
             center: coordinates, // starting position [lng, lat]
-            zoom: 13.1 // starting zoom
+            zoom: 12// starting zoom
         });
         const marker1 = new mapboxgl.Marker({color:"red"})
         .setLngLat(coordinates)
