@@ -167,7 +167,7 @@ app.get("/listings/:id", async (req, res) => {
     limit: 1,
   }).send();
   const listingCoordinates = JSON.stringify(response.body.features[0].geometry.coordinates);
-   console.log(listingCoordinates);
+  //  console.log(listingCoordinates);
   res.render("listings/show.ejs", { listing, listingCoordinates});
 });
 

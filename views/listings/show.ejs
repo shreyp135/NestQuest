@@ -21,22 +21,22 @@
 
       <div>
         <h2>Where you'll be</h3>
-          <p><%=listingCoordinates%></p>
+          <!-- <p><%=listingCoordinates%></p> -->
         <br>
         <div id="map"></div>
       </div>
       
       <script>
       const mapToken = "<%=process.env.MAP_TOKEN%>";
+      const coordinates = JSON.parse("<%-listingCoordinates%>");
       mapboxgl.accessToken = mapToken;
         const map = new mapboxgl.Map({
-            container: 'map', // container ID
-            center: [77.1, 28.7], // starting position [lng, lat]
-            zoom: 9 // starting zoom
+            container: "map", // container ID
+            center: coordinates, // starting position [lng, lat]
+            zoom: 13.1 // starting zoom
         });
-
-        const marker1 = new mapboxgl.Marker()
-        .setLngLat(listingCoordinates)
+        const marker1 = new mapboxgl.Marker({color:"red"})
+        .setLngLat(coordinates)
         .addTo(map);
 
       </script>
@@ -105,4 +105,4 @@
 
 </body>
 
-<script src="/js/map.js"></script>
+<!-- <script src="/js/map.js"></script> -->
