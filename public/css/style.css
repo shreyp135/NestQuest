@@ -140,3 +140,10 @@ body{
     text-align: center;
     border-radius: 25px;
 }
+
+
+@media(max-width:500px){
+    #map{
+        width: 25rem;
+    }
+}
