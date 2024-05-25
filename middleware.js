@@ -1,6 +1,6 @@
 const listing = require("./models/listing.js");
 
-
+//middleware for checking if the user is logged in or not
   module.exports.isloggedIn = (req,res,next)=>{
     if(!req.isAuthenticated()){
        req.session.redirectUrl = req.originalUrl;
@@ -10,6 +10,7 @@ const listing = require("./models/listing.js");
     next();
   };
 
+  //middleware for redirecting
   module.exports.saveRedirectUrl = (req,res,next)=>{
         if(req.session.redirectUrl)
         {
@@ -20,6 +21,7 @@ const listing = require("./models/listing.js");
         next();
   };
 
+//middleware for authorisation check
   module.exports.isOwner = async (req,res,next)=>{
     let { id } = req.params;
     const currentListing = await listing.findById(id);
@@ -31,6 +33,7 @@ const listing = require("./models/listing.js");
 
   };
 
+//middleware for authorisation check
   module.exports.isAuthor = async (req,res,next)=>{
     let {id,reviewId } = req.params;
     const currentListing = await review.findById(reviewId);
