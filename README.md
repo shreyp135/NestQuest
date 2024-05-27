@@ -27,7 +27,7 @@ needs.
    
  <br><br>
 2. Listings <br>
-   - Each listing has an image and all the necessary info on th property.
+   - Each listing has an image and all the necessary info on the property.
    - ![image](https://res.cloudinary.com/dahhchuj8/image/upload/v1716814638/Screenshot_2024-05-27_182704_mgbbzy.png)
     <br><br>
    - It also shows on the map(mapbox api) where the property is listed and also if there are any reviews or ratings. 
@@ -55,17 +55,14 @@ needs.
 #### Frontend
 - HTML, EJS, CSS
 - Bootstrap
-
 #### Backend
 - Nodejs
 - Express
 - MongoDB
 - Javascript
-
 #### Other
 - Mapbox api
 - cloudinary
-
 
 ## Features
 
@@ -77,8 +74,9 @@ needs.
 ## Points to keep in mind while testing the app
 
 1. Be patient as the  website is running on a free server with limited bandwidth so it can be a little slow at first.
-2. In case any **user is not broadcasted** it is probably due to server overload, **REFRESH** the window to solve this. 
-3. Make sure the **URL** is starting with https
+2. In case the page is not reloading, it is probably due to server overload, **REFRESH** the window to solve this.
+3. if it is showing server not acceessible then add you ip address to mongo atlas configuration in the dashboard.
+4. Make sure the **URL** is starting with https.
 
 ## Instructions
 
