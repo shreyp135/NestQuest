@@ -98,7 +98,8 @@ needs.
 1. add the searchbox backend functionality
 2. make the ui more responsive on different sizes
 3. add current location feature
-4. Endless number of features :)
+4. Integrate AI (cause that's the basic need nowadays ;) )
+5. Endless number of features :)
 
 ## Need help?
 
